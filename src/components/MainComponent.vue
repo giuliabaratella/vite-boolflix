@@ -2,26 +2,26 @@
     <main>
         <section class="container">
             <h2 class="text-uppercase">Movies</h2>
-            <div class="row column-gap-2">
-                <div class="col-2 mb-3" v-for="el in store.moviesList">
-                    <div>{{ el.title }}</div>
-                    <div>{{ el.original_title }}</div>
-                    <div>{{ el.vote_average }}</div>
-                    <div>{{ el.original_language}}</div>
-                </div>
+            <div class="row column-gap-4 align-items-stretch justify-content-center">
+                <cardBox v-for="el in store.moviesList"
+                :title="el.title" 
+                :originalTitle="el.original_title" 
+                :raiting="el.vote_average" 
+                :language="el.original_language"/>
 
             </div>
         </section>
 
         <section class="container">
             <h2 class="text-uppercase">Series</h2>
-            <div class="row column-gap-2">
-                <div class="col-2 mb-3" v-for="el in store.seriesList">
-                    <div>{{ el.name }}</div>
-                    <div>{{ el.original_name}}</div>
-                    <div>{{ el.vote_average }}</div>
-                    <div>{{ el.original_language}}</div>
-                </div>
+            <div class="row column-gap-4 align-items-stretch justify-content-center">
+
+                <cardBox v-for="el in store.seriesList"
+                :title="el.name" 
+                :originalTitle="el.original_name" 
+                :raiting="el.vote_average" 
+                :language="el.original_language"/>
+
 
             </div>
             
@@ -31,8 +31,12 @@
 
 <script>
 import { store } from '../assets/data/store';
+import cardBox from './cardBox.vue';
     export default {
         name:'MainComponent',
+        components:{
+            cardBox,
+        },
         data(){
             return{
                 store,
