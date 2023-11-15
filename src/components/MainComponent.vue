@@ -7,7 +7,8 @@
                 :title="el.title" 
                 :originalTitle="el.original_title" 
                 :raiting="el.vote_average" 
-                :language="el.original_language"/>
+                :language="el.original_language"
+                :imgSource=" el.poster_path"/>
 
             </div>
         </section>
@@ -20,7 +21,8 @@
                 :title="el.name" 
                 :originalTitle="el.original_name" 
                 :raiting="el.vote_average" 
-                :language="el.original_language"/>
+                :language="el.original_language"
+                :imgSource=" el.poster_path"/>
 
 
             </div>

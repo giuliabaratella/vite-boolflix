@@ -1,30 +1,34 @@
 <template>
     <div class="col-12 col-md-4 col-lg-3 col-xl-2 card-box text-center mb-3 ">
-        <!-- <div class="img-box mb-3">
-            <img :src="img" :alt="title">
-        </div> -->
+        <div class="img-box mb-3">
+            <img :src="store.urlImg + store.imgSize.poster + imgSource" :alt="title">
+        </div>
         <div class="card-text p-2">
             <h5 class="text-uppercase mb-3">{{title}}</h5>
             <div class="original-title">{{originalTitle}}</div>
-            <div class="d-flex justify-content-between ">
+            <div class="d-flex justify-content-between">
                 <div class="lang-box">
                     <img :src="getFlag()" :alt="language">
                 </div>
-                <div>{{ raiting }}</div>
+                <div>{{ raitingInteger }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { store } from '../assets/data/store';
+
     export default {
         name:'cardBox',
         data(){
             return{
+                store,
+                raitingInteger: parseInt(this.raiting / 2),
             }
         },
         props: {
-            // img: String,
+            imgSource: String,
             title: String,
             originalTitle: String,
             language:String,
@@ -66,12 +70,12 @@
             color: $colorPrimary;
         }
     }
-    // .img-box{
-    //     width: 100%;
-    //     img {
-    //         width: 100%;
-    //     }
-    // }
+    .img-box{
+        width: 100%;
+        img {
+            width: 100%;
+        }
+    }
     .original-title{
         font-size: 0.8em;
     }

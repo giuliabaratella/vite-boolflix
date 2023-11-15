@@ -43,6 +43,8 @@ import MainComponent from './components/MainComponent.vue';
           this.getMoviesandSeries();
         }else{
           this.store.params.query = '';
+          this.getMoviesandSeries();
+
         }
         
 
