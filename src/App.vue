@@ -1,5 +1,5 @@
 <template>
-<HeaderComponent/>
+<HeaderComponent @search="searchMovies"/>
 <MainComponent/>
 </template>
 
@@ -32,6 +32,9 @@ import MainComponent from './components/MainComponent.vue';
         console.log(store.moviesList);
         console.log(store.seriesList);
       },
+      searchMovies(val){
+        console.log(val);
+      }
     },
     created(){
       // this.getMoviesandSeries();
