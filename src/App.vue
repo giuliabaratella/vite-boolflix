@@ -23,28 +23,27 @@ import MainComponent from './components/MainComponent.vue';
       getMoviesandSeries(){
         store.seriesList=[];
         store.moviesList=[];
-        const movieUrl = store.urlApi + store.endpoint.movie;
-        axios.get(movieUrl, {params: store.params}).then ((resp)=> {
+        const movieUrl = this.store.urlApi + this.store.endpoint.movie;
+        axios.get(movieUrl, {params: this.store.params}).then ((resp)=> {
           console.log(resp.data.results);
-
-          store.moviesList = resp.data.results;
+          this.store.moviesList = resp.data.results;
+          // console.log(this.store.moviesList);
         })
-        const seriesUrl = store.urlApi + store.endpoint.series;
-        axios.get(seriesUrl, {params: store.params}).then ((resp)=> {
+        const seriesUrl = this.store.urlApi + this.store.endpoint.series;
+        axios.get(seriesUrl, {params: this.store.params}).then ((resp)=> {
           console.log(resp.data.results);
-          store.seriesList = resp.data.results;
+          this.store.seriesList = resp.data.results;
+          // console.log(this.store.seriesList);
         })
-        console.log(store.moviesList);
-        console.log(store.seriesList);
       },
       searchMovies(val){
         console.log(val);
         if(val){
-          store.params.query = val;
+          this.store.params.query = val;
+          this.getMoviesandSeries();
         }else{
-          store.params.query = '';
+          this.store.params.query = '';
         }
-        this.getMoviesandSeries();
         
 
       }
