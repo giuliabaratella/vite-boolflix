@@ -21,12 +21,17 @@ import MainComponent from './components/MainComponent.vue';
     },
     methods:{
       getMoviesandSeries(){
+        store.seriesList=[];
+        store.moviesList=[];
         const movieUrl = store.urlApi + store.endpoint.movie;
-        axios.get(movieUrl, {params: this.store.params}).then ((resp)=> {
+        axios.get(movieUrl, {params: store.params}).then ((resp)=> {
+          console.log(resp.data.results);
+
           store.moviesList = resp.data.results;
         })
         const seriesUrl = store.urlApi + store.endpoint.series;
-        axios.get(seriesUrl, {params: this.store.params}).then ((resp)=> {
+        axios.get(seriesUrl, {params: store.params}).then ((resp)=> {
+          console.log(resp.data.results);
           store.seriesList = resp.data.results;
         })
         console.log(store.moviesList);
@@ -34,6 +39,14 @@ import MainComponent from './components/MainComponent.vue';
       },
       searchMovies(val){
         console.log(val);
+        if(val){
+          store.params.query = val;
+        }else{
+          store.params.query = '';
+        }
+        this.getMoviesandSeries();
+        
+
       }
     },
     created(){
