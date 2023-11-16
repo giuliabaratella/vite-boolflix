@@ -21,6 +21,7 @@ import MainComponent from './components/MainComponent.vue';
     },
     methods:{
       getMoviesandSeries(){
+        store.showResults = true;
         store.seriesList=[];
         store.moviesList=[];
         const movieUrl = this.store.urlApi + this.store.endpoint.movie;
@@ -44,9 +45,8 @@ import MainComponent from './components/MainComponent.vue';
         }else{
           this.store.params.query = '';
           this.getMoviesandSeries();
-
+          this.store.showResults = false;
         }
-        
 
       }
     },

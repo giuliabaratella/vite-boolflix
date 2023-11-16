@@ -27,9 +27,6 @@ import { store } from '../assets/data/store';
         props: {
             imgSource: String,
             title: String,
-            originalTitle: String,
-            language:String,
-            raiting: Number,
         },
         computed:{
 

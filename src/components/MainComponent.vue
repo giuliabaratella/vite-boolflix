@@ -1,5 +1,7 @@
 <template>
     <main>
+
+        <!-- offcanvas  -->
         <div class="offcanvas offcanvas-start p-3 overflow-y-auto" :class="{show : infoBox}" id="infobox" aria-labelledby="infobox">
             
             <div class="offcanvas-header row">
@@ -15,7 +17,12 @@
                 <p>{{overview}}</p>
             </div>
         </div>
-        <section id="movies" class="ps-5 my-5">
+
+        <!-- welcome  -->
+        <welcomeBanner v-if="!store.showResults"/>
+
+        <!-- movies  -->
+        <section id="movies" class="ps-5 my-5" v-if="store.showResults">
             <div class="d-flex column-gap-2">
                 <h2>Film</h2>
                 <btn class="prev btn" @click="scrollBw('movie')">&#10094;</btn>
@@ -24,9 +31,6 @@
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
                 :title="el.title" 
-                :originalTitle="el.original_title" 
-                :raiting="el.vote_average" 
-                :language="el.original_language"
                 :imgSource=" el.poster_path"
                 @click="getInfo(el)"/>
                 
@@ -34,7 +38,8 @@
             </div>
         </section>
 
-        <section id="series" class="ps-5 my-5">
+        <!-- series  -->
+        <section id="series" class="ps-5 my-5" v-if="store.showResults">
             <div class="d-flex column-gap-2">
                 <h2>Serie TV</h2>
                 <btn class="prev btn"  @click="scrollBw('series')">&#10094;</btn>
@@ -44,9 +49,6 @@
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 
-                :originalTitle="el.original_name" 
-                :raiting="el.vote_average" 
-                :language="el.original_language"
                 :imgSource=" el.poster_path"
                 @click="getInfo(el)"/>
 
@@ -59,16 +61,17 @@
 
 <script>
 import { store } from '../assets/data/store';
+import welcomeBanner from './welcomeBanner.vue';
 import cardBox from './cardBox.vue';
     export default {
         name:'MainComponent',
         components:{
             cardBox,
+            welcomeBanner,
         },
         data(){
             return{
                 store,
-                activeIndex:'',
                 infoBox: false,
                 title:'',
                 originalTitle: '',
@@ -90,7 +93,6 @@ import cardBox from './cardBox.vue';
         methods:{
             getInfo(el){
                 this.infoBox= true;
-                console.log(this.activeIndex);
                 this.overview= el.overview;
                 this.language= el.original_language;
                 this.raiting= el.vote_average;
@@ -153,6 +155,7 @@ main {
     background-color: $colorDark;
     color: $colorLight;
     height: calc(100vh - 80px);
+    width: 100%;
     overflow-y: auto;
     
         &::-webkit-scrollbar {
