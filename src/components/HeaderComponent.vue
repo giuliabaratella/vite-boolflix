@@ -6,7 +6,7 @@
             </h1>
             <div id="search-bar">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search film or TV series" aria-label="search" aria-describedby="search" v-model="searchInput">
+                    <input type="text" class="form-control" placeholder="Search film or TV series" aria-label="search" aria-describedby="search" v-model="searchInput" @keyup.enter="$emit('search',searchInput)">
                     <button class="btn input-group-text" id="search" @click="$emit('search',searchInput)">Search</button>
                 </div>
             </div>
@@ -32,7 +32,7 @@
 
 header {
     height: 80px;
-    background-color: $colorHeaderBg;
+    background-color: $colorDark;
     color: $colorLight;
     h1{
     color: $colorPrimary;

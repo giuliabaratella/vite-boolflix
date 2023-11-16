@@ -46,7 +46,7 @@ import { store } from '../assets/data/store';
     width: 300px;
     // padding-left: 0 !important;
     // padding-right: 0 !important;
-    background-color: $colorHeaderBg;
+    background-color: $colorDark;
     color: $colorLight;
     transition: all 0.1s;
     .card-text{

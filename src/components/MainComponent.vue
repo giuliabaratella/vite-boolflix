@@ -18,8 +18,8 @@
         <section id="movies" class="ps-5 my-5">
             <div class="d-flex column-gap-2">
                 <h2>Film</h2>
-                <btn class="prev btn btn-danger" @click="scrollBw('movie')">&#10094;</btn>
-                <btn class="next btn btn-danger" @click="scrollFw('movie')">&#10095;</btn>
+                <btn class="prev btn" @click="scrollBw('movie')">&#10094;</btn>
+                <btn class="next btn" @click="scrollFw('movie')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
@@ -37,8 +37,8 @@
         <section id="series" class="ps-5 my-5">
             <div class="d-flex column-gap-2">
                 <h2>Serie TV</h2>
-                <btn class="prev btn btn-danger"  @click="scrollBw('series')">&#10094;</btn>
-                <btn class="next btn btn-danger" @click="scrollFw('series')">&#10095;</btn>
+                <btn class="prev btn"  @click="scrollBw('series')">&#10094;</btn>
+                <btn class="next btn" @click="scrollFw('series')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
 
@@ -119,12 +119,12 @@ import cardBox from './cardBox.vue';
             scrollBw(el){
                 if (el === 'movie'){
                     this.$refs.moviesList.scrollBy({
-                    left: 800,
+                    left: -800,
                     behavior: "smooth",
                     });
                 }else if (el === 'series'){
                     this.$refs.seriesList.scrollBy({
-                        left: 800,
+                        left: -800,
                         behavior: "smooth",
                     });
                 }
@@ -150,26 +150,30 @@ import cardBox from './cardBox.vue';
 <style lang="scss" scoped>
 @use '../assets/styles/partials/variables' as *;
 main {
-    background-color: $colorHeaderBg;
+    background-color: $colorDark;
     color: $colorLight;
     height: calc(100vh - 80px);
     overflow-y: auto;
     
+        &::-webkit-scrollbar {
+        display: none;
+        }
+        
     h2, .btn{
-        // color: $colorPrimary;
         margin-bottom: 20px;
     }
+    .btn {
+                background-color: $colorDarkGrey;
+            }
     .list{
-        // position: relative;
         transition: all 0.2s;
             &::-webkit-scrollbar {
             display: none;
             }
+            
     }
     
-    &::-webkit-scrollbar {
-    display: none;
-    }
+    
     .offcanvas {
         border: 0;
         background: linear-gradient(180deg, #000 61.24%, rgba(144, 0, 0, 0.76) 100%);
