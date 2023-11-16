@@ -1,7 +1,7 @@
 <template>
     <div class=" card-box">
         <div class="img-box">
-            <h3 class="img-title text-uppercase mb-0">{{ getTitle }}</h3>
+            <h3 class="img-title text-uppercase mb-0">{{ title }}</h3>
             <div class="img-logo">B</div>
             <img :src="getImg" :alt="title">
         </div>
@@ -35,9 +35,6 @@ import { store } from '../assets/data/store';
             getImg(){
                 return this.imgSource ? (store.urlImg + store.imgSize.backdrop + this.imgSource) : 'img/404-not-found.jpg'
             },
-            getTitle(){
-                return truncate(this.title , 15);
-            }
         }
     }
 </script>
