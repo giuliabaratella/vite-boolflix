@@ -14,6 +14,12 @@
             </div>
             </div>
             <div class="offcanvas-body">
+                <div class="d-flex align-items-center column-gap-4 mb-4">
+                    <h3>Guarda Ora</h3>
+                    <button class="play-btn btn btn-outline-dark">
+                        <i class="fa-solid fa-play ps-2"></i>
+                    </button>
+                </div>
                 <p>{{overview}}</p>
             </div>
         </div>
@@ -31,7 +37,7 @@
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
                 :title="el.title" 
-                :imgSource=" el.poster_path"
+                :imgSource=" el.backdrop_path"
                 @click="getInfo(el)"/>
                 
 
@@ -49,7 +55,7 @@
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 
-                :imgSource=" el.poster_path"
+                :imgSource=" el.backdrop_path"
                 @click="getInfo(el)"/>
 
 
@@ -193,6 +199,13 @@ main {
         }
         .lang-img{
         width: 20px;
+        }
+        .play-btn{
+            width: 100px;
+            height: 70px;
+            .fa-play{
+            font-size: 3em !important;
+            }
         }
         
     }

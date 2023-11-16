@@ -1,6 +1,8 @@
 <template>
-    <div class=" card-box text-center">
+    <div class=" card-box">
         <div class="img-box">
+            <h3 class="img-title text-uppercase mb-0">{{ getTitle }}</h3>
+            <div class="img-logo">B</div>
             <img :src="getImg" :alt="title">
         </div>
         <!-- <div class="card-text p-2">
@@ -31,7 +33,10 @@ import { store } from '../assets/data/store';
         computed:{
 
             getImg(){
-                return this.imgSource ? (store.urlImg + store.imgSize.poster + this.imgSource) : 'img/404-not-found.jpg'
+                return this.imgSource ? (store.urlImg + store.imgSize.backdrop + this.imgSource) : 'img/404-not-found.jpg'
+            },
+            getTitle(){
+                return truncate(this.title , 15);
             }
         }
     }
@@ -41,8 +46,7 @@ import { store } from '../assets/data/store';
 @use '../assets/styles/partials/variables' as *;
 .card-box{
     width: 300px;
-    // padding-left: 0 !important;
-    // padding-right: 0 !important;
+    height: 169px;
     background-color: $colorDark;
     color: $colorLight;
     transition: all 0.1s;
@@ -53,11 +57,36 @@ import { store } from '../assets/data/store';
     }
     .img-box{
         width: 300px;
-        height: 450px;
+        height: 100%;
+        position: relative;
+            .img-logo{
+                position: absolute;
+                top: 0px;
+                left: 10px;
+                font-weight: bold;
+                font-size: 1.3em;
+                transform: scale(1, 1.3);
+                color: $colorPrimary;
+            }
+            .img-title {
+                position: absolute;
+                bottom: 0px;
+                right: 0px;
+                font-weight: bold;
+                color: $colorLight;
+                font-size: 1.2em;
+                width: 100%;
+                background-color: rgba($color: #000000, $alpha: 0.6);
+                padding: 5px 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         img {
-            width: 300px;
-            height: 450px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            object-position: center;
         }
     }
     .original-title{
