@@ -18,8 +18,8 @@
         <section id="movies" class="ps-5 my-5">
             <div class="d-flex column-gap-2">
                 <h2>Film</h2>
-                <btn class="prev btn btn-danger" @click="scrollBwMovies()">&#10094;</btn>
-                <btn class="next btn btn-danger" @click="scrollFwMovies()">&#10095;</btn>
+                <btn class="prev btn btn-danger" @click="scrollBw('movie')">&#10094;</btn>
+                <btn class="next btn btn-danger" @click="scrollFw('movie')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
@@ -37,8 +37,8 @@
         <section id="series" class="ps-5 my-5">
             <div class="d-flex column-gap-2">
                 <h2>Serie TV</h2>
-                <btn class="prev btn btn-danger"  @click="scrollBwSeries()">&#10094;</btn>
-                <btn class="next btn btn-danger" @click="scrollFwSeries()">&#10095;</btn>
+                <btn class="prev btn btn-danger"  @click="scrollBw('series')">&#10094;</btn>
+                <btn class="next btn btn-danger" @click="scrollFw('series')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
 
@@ -102,30 +102,33 @@ import cardBox from './cardBox.vue';
                     this.originalTitle= el.original_title;
                 }
             },
-            scrollFwMovies(){
-                this.$refs.moviesList.scrollBy({
+            scrollFw(el){
+                if (el === 'movie'){
+                    this.$refs.moviesList.scrollBy({
                     left: 800,
                     behavior: "smooth",
                 });
-            },
-            scrollBwMovies(){
-                this.$refs.moviesList.scrollBy({
-                    left: -800,
-                    behavior: "smooth",
-                });
-            },
-            scrollFwSeries(){
+                }else if (el === 'series'){
                 this.$refs.seriesList.scrollBy({
                     left: 800,
                     behavior: "smooth",
                 });
-            },
-            scrollBwSeries(){
-                this.$refs.seriesList.scrollBy({
-                    left: -800,
+               
+                }
+         },
+            scrollBw(el){
+                if (el === 'movie'){
+                    this.$refs.moviesList.scrollBy({
+                    left: 800,
                     behavior: "smooth",
-                });
-            }
+                    });
+                }else if (el === 'series'){
+                    this.$refs.seriesList.scrollBy({
+                        left: 800,
+                        behavior: "smooth",
+                    });
+                }
+            },
         },
         computed:{
             voteStars(){
