@@ -34,7 +34,7 @@ import { store } from '../assets/data/store';
         computed:{
 
             getImg(){
-                return this.imgSource ? (store.urlImg + store.imgSize.poster + this.imgSource) : 'img/flags/noflag.png'
+                return this.imgSource ? (store.urlImg + store.imgSize.poster + this.imgSource) : 'img/404-not-found.jpg'
             }
         }
     }

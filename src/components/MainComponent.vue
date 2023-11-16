@@ -16,8 +16,12 @@
             </div>
         </div>
         <section id="movies" class="ps-5 my-5">
-            <h2>Film</h2>
-            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto">
+            <div class="d-flex column-gap-2">
+                <h2>Film</h2>
+                <btn class="prev btn btn-danger" @click="scrollBwMovies()">&#10094;</btn>
+                <btn class="next btn btn-danger" @click="scrollFwMovies()">&#10095;</btn>
+            </div>
+            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
                 :title="el.title" 
                 :originalTitle="el.original_title" 
@@ -25,13 +29,18 @@
                 :language="el.original_language"
                 :imgSource=" el.poster_path"
                 @click="getInfo(el)"/>
+                
 
             </div>
         </section>
 
         <section id="series" class="ps-5 my-5">
-            <h2>Serie TV</h2>
-            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto">
+            <div class="d-flex column-gap-2">
+                <h2>Serie TV</h2>
+                <btn class="prev btn btn-danger"  @click="scrollBwSeries()">&#10094;</btn>
+                <btn class="next btn btn-danger" @click="scrollFwSeries()">&#10095;</btn>
+            </div>
+            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 
@@ -92,6 +101,30 @@ import cardBox from './cardBox.vue';
                     this.title= el.title;
                     this.originalTitle= el.original_title;
                 }
+            },
+            scrollFwMovies(){
+                this.$refs.moviesList.scrollBy({
+                    left: 800,
+                    behavior: "smooth",
+                });
+            },
+            scrollBwMovies(){
+                this.$refs.moviesList.scrollBy({
+                    left: -800,
+                    behavior: "smooth",
+                });
+            },
+            scrollFwSeries(){
+                this.$refs.seriesList.scrollBy({
+                    left: 800,
+                    behavior: "smooth",
+                });
+            },
+            scrollBwSeries(){
+                this.$refs.seriesList.scrollBy({
+                    left: -800,
+                    behavior: "smooth",
+                });
             }
         },
         computed:{
@@ -114,19 +147,21 @@ import cardBox from './cardBox.vue';
 <style lang="scss" scoped>
 @use '../assets/styles/partials/variables' as *;
 main {
-    background-color: $colorMainBg;
+    background-color: $colorHeaderBg;
     color: $colorLight;
     height: calc(100vh - 80px);
     overflow-y: auto;
     
-    h2{
+    h2, .btn{
         // color: $colorPrimary;
         margin-bottom: 20px;
     }
     .list{
-       &::-webkit-scrollbar {
-        display: none;
-        }
+        // position: relative;
+        transition: all 0.2s;
+            &::-webkit-scrollbar {
+            display: none;
+            }
     }
     
     &::-webkit-scrollbar {
