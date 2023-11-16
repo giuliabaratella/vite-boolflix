@@ -1,8 +1,8 @@
 <template>
     <main>
-        <section class="container">
+        <section class="container mb-5">
             <h2 class="text-uppercase">Movies</h2>
-            <div class="row column-gap-4 align-items-stretch justify-content-center">
+            <div class="row align-items-stretch">
                 <cardBox v-for="el in store.moviesList"
                 :title="el.title" 
                 :originalTitle="el.original_title" 
@@ -15,7 +15,7 @@
 
         <section class="container">
             <h2 class="text-uppercase">Series</h2>
-            <div class="row column-gap-4 align-items-stretch justify-content-center">
+            <div class="row align-items-stretch">
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 

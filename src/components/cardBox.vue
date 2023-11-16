@@ -1,16 +1,14 @@
 <template>
-    <div class="col-12 col-md-4 col-lg-3 col-xl-2 card-box text-center mb-3 ">
+    <div class="col-12 col-md-4 col-lg-3 col-xl-2 card-box text-center">
         <div class="img-box mb-3">
             <img :src="store.urlImg + store.imgSize.poster + imgSource" :alt="title">
         </div>
         <div class="card-text p-2">
             <h5 class="text-uppercase mb-3">{{title}}</h5>
-            <div class="original-title">{{originalTitle}}</div>
-            <div class="d-flex justify-content-between">
-                <div class="lang-box">
-                    <img :src="getFlag()" :alt="language">
-                </div>
-                <div>{{ raitingInteger }}</div>
+            <div class="original-title mb-3">{{originalTitle}}</div>
+            <div class="d-flex justify-content-evenly">
+                <img :src="getFlag" :alt="language" class="lang-img">
+                <div><i v-for="n in 5" :key="n" class="fa-star" :class="(n <= voteStars) ? 'fa-solid' : 'fa-regular'"></i></div>
             </div>
         </div>
     </div>
@@ -24,7 +22,16 @@ import { store } from '../assets/data/store';
         data(){
             return{
                 store,
-                raitingInteger: parseInt(this.raiting / 2),
+                flags:[
+                    'ca',
+                    'de',
+                    'en',
+                    'fr',
+                    'it',
+                    'ja',
+                    'kr',
+                    'us',
+                ]
             }
         },
         props: {
@@ -34,24 +41,18 @@ import { store } from '../assets/data/store';
             language:String,
             raiting: Number,
         },
-        methods:{
+        computed:{
             getFlag(){
                 let languageSource= '';
-                if(this.language !== 'es'&&
-                this.language !== 'ca'&&
-                this.language !== 'de'&&
-                this.language !== 'en'&&
-                this.language !== 'fr'&&
-                this.language !== 'it'&&
-                this.language !== 'ja'&&
-                this.language !== 'kr'&&
-                this.language !== 'us'
-                ){
+                if(!this.flags.includes(this.language)){
                 languageSource='img/flags/noflag.png'
                 } else {
                 languageSource = `img/flags/${this.language}.svg`
                 }
                 return languageSource;
+            },
+            voteStars(){
+                return Math.ceil(this.raiting / 2);
             }
         }
     }
@@ -65,6 +66,7 @@ import { store } from '../assets/data/store';
     padding-right: 0 !important;
     background-color: $colorHeaderBg;
     color: $colorLight;
+    transition: all 0.1s;
     .card-text{
         h5{
             color: $colorPrimary;
@@ -79,11 +81,13 @@ import { store } from '../assets/data/store';
     .original-title{
         font-size: 0.8em;
     }
-    .lang-box{
+    .lang-img{
         width: 20px;
-        img{
-            width: 100%;
-        }
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.02);
+        filter:brightness(40%);
     }
 }
 </style>
