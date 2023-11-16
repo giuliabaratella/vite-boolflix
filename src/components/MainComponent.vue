@@ -1,28 +1,45 @@
 <template>
     <main>
-        <section class="container mb-5">
-            <h2 class="text-uppercase">Movies</h2>
-            <div class="row align-items-stretch">
-                <cardBox v-for="el in store.moviesList"
+        <div class="offcanvas offcanvas-start p-3 overflow-y-auto" :class="{show : infoBox}" id="infobox" aria-labelledby="infobox">
+            
+            <div class="offcanvas-header row">
+                <h4 class="text-uppercase col-10">{{title}}</h4>
+                <button type="button" class="btn-close" aria-label="Close" @click="infoBox = false"></button>
+                <h6 class="col-12">Titolo originale: {{ originalTitle }}</h6>
+                <div class="d-flex">
+                <img :src="getFlag" :alt="language" class="lang-img me-5">
+                <div><i v-for="n in 5" :key="n" class="fa-star" :class="(n <= voteStars) ? 'fa-solid' : 'fa-regular'"></i></div>
+            </div>
+            </div>
+            <div class="offcanvas-body">
+                <p>{{overview}}</p>
+            </div>
+        </div>
+        <section id="movies" class="ps-5 my-5">
+            <h2>Film</h2>
+            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto">
+                <cardBox v-for="(el,index) in store.moviesList" :key="index"
                 :title="el.title" 
                 :originalTitle="el.original_title" 
                 :raiting="el.vote_average" 
                 :language="el.original_language"
-                :imgSource=" el.poster_path"/>
+                :imgSource=" el.poster_path"
+                @click="getInfo(el)"/>
 
             </div>
         </section>
 
-        <section class="container">
-            <h2 class="text-uppercase">Series</h2>
-            <div class="row align-items-stretch">
+        <section id="series" class="ps-5 my-5">
+            <h2>Serie TV</h2>
+            <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto">
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 
                 :originalTitle="el.original_name" 
                 :raiting="el.vote_average" 
                 :language="el.original_language"
-                :imgSource=" el.poster_path"/>
+                :imgSource=" el.poster_path"
+                @click="getInfo(el)"/>
 
 
             </div>
@@ -42,7 +59,54 @@ import cardBox from './cardBox.vue';
         data(){
             return{
                 store,
+                activeIndex:'',
+                infoBox: false,
+                title:'',
+                originalTitle: '',
+                overview:'',
+                language:'',
+                raiting:'',
+                flags:[
+                    'ca',
+                    'de',
+                    'en',
+                    'fr',
+                    'it',
+                    'ja',
+                    'kr',
+                    'us',
+                ]
             }
+        },
+        methods:{
+            getInfo(el){
+                this.infoBox= true;
+                console.log(this.activeIndex);
+                this.overview= el.overview;
+                this.language= el.original_language;
+                this.raiting= el.vote_average;
+                if(el.name){
+                    this.title= el.name;
+                    this.originalTitle= el.original_name;
+                }else if(el.title){
+                    this.title= el.title;
+                    this.originalTitle= el.original_title;
+                }
+            }
+        },
+        computed:{
+            voteStars(){
+                return Math.ceil(this.raiting / 2);
+            },
+            getFlag(){
+                let languageSource= '';
+                if(!this.flags.includes(this.language)){
+                languageSource='img/flags/noflag.png'
+                } else {
+                languageSource = `img/flags/${this.language}.svg`
+                }
+                return languageSource;
+            },
         }
     }
 </script>
@@ -54,10 +118,40 @@ main {
     color: $colorLight;
     height: calc(100vh - 80px);
     overflow-y: auto;
+    
     h2{
-        color: $colorPrimary;
-        margin-bottom: 30px;
+        // color: $colorPrimary;
+        margin-bottom: 20px;
     }
-}
+    .list{
+       &::-webkit-scrollbar {
+        display: none;
+        }
+    }
+    
+    &::-webkit-scrollbar {
+    display: none;
+    }
+    .offcanvas {
+        border: 0;
+        background: linear-gradient(180deg, #000 61.24%, rgba(144, 0, 0, 0.76) 100%);
+        color: $colorLight;
+        
+        .offcanvas-body::-webkit-scrollbar {
+        display: none;
+        }
+        h4, h6{
+            color: $colorPrimary;
+        }
+        .btn-close{
+            background-color: $colorLight;
+        }
+        .lang-img{
+        width: 20px;
+        }
+        
+    }
 
+}
+    
 </style>

@@ -3,7 +3,7 @@ export const store= reactive ({
     urlApi: 'https://api.themoviedb.org/3',
     urlImg: 'https://image.tmdb.org/t/p/',
     imgSize:{
-        poster: 'w500',
+        poster: 'w342',
         backdrop: 'w780',
     },
     endpoint: {
@@ -17,5 +17,5 @@ export const store= reactive ({
     },
     moviesList:[],
     seriesList:[],
-    
+
 })

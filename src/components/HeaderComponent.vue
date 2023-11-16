@@ -1,7 +1,7 @@
 <template>
-    <Header class="py-3 px-4">
+    <Header class="py-3 px-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h1 class="text-uppercase m-0 ">
+            <h1 class="text-uppercase m-0">
                 Boolflix
             </h1>
             <div id="search-bar">
