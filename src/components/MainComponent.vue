@@ -31,14 +31,14 @@
         <section id="movies" class="ps-5 my-5" v-if="store.showResults">
             <div class="d-flex column-gap-2">
                 <h2>Film</h2>
-                <btn class="prev btn" @click="scrollBw('movie')">&#10094;</btn>
-                <btn class="next btn" @click="scrollFw('movie')">&#10095;</btn>
+                <btn class="prev btn" @click="scrollBw('moviesList')">&#10094;</btn>
+                <btn class="next btn" @click="scrollFw('moviesList')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                 <cardBox v-for="(el,index) in store.moviesList" :key="index"
                 :title="el.title" 
                 :imgSource=" el.backdrop_path"
-                @click="getInfo(el)"/>
+                @click="getInfo(el.id, 'moviesList')"/>
                 
 
             </div>
@@ -48,15 +48,15 @@
         <section id="series" class="ps-5 my-5" v-if="store.showResults">
             <div class="d-flex column-gap-2">
                 <h2>Serie TV</h2>
-                <btn class="prev btn"  @click="scrollBw('series')">&#10094;</btn>
-                <btn class="next btn" @click="scrollFw('series')">&#10095;</btn>
+                <btn class="prev btn"  @click="scrollBw('seriesList')">&#10094;</btn>
+                <btn class="next btn" @click="scrollFw('seriesList')">&#10095;</btn>
             </div>
             <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
 
                 <cardBox v-for="el in store.seriesList"
                 :title="el.name" 
                 :imgSource=" el.backdrop_path"
-                @click="getInfo(el)"/>
+                @click="getInfo(el.id, 'seriesList')"/>
 
 
             </div>
@@ -93,11 +93,12 @@ import cardBox from './cardBox.vue';
                     'ja',
                     'kr',
                     'us',
-                ]
+                ],
             }
         },
         methods:{
-            getInfo(el){
+            getInfo(id, list){
+                const el = this.store[list].find((el)=> el.id === id);
                 this.infoBox= true;
                 this.overview= el.overview;
                 this.language= el.original_language;
@@ -110,34 +111,21 @@ import cardBox from './cardBox.vue';
                     this.originalTitle= el.original_title;
                 }
             },
-            scrollFw(el){
-                if (el === 'movie'){
-                    this.$refs.moviesList.scrollBy({
-                    left: 800,
-                    behavior: "smooth",
-                });
-                }else if (el === 'series'){
-                this.$refs.seriesList.scrollBy({
+
+            scrollFw(section){
+                this.$refs[section].scrollBy({
                     left: 800,
                     behavior: "smooth",
                 });
                
-                }
-         },
-            scrollBw(el){
-                if (el === 'movie'){
-                    this.$refs.moviesList.scrollBy({
+            },
+            scrollBw(section){
+                this.$refs[section].scrollBy({
                     left: -800,
                     behavior: "smooth",
-                    });
-                }else if (el === 'series'){
-                    this.$refs.seriesList.scrollBy({
-                        left: -800,
-                        behavior: "smooth",
-                    });
-                }
+                });
             },
-        },
+         },
         computed:{
             voteStars(){
                 return Math.ceil(this.raiting / 2);
