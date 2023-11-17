@@ -27,47 +27,47 @@
         <!-- welcome  -->
         <welcomeBanner v-if="!store.showResults"/>
 
-        <!-- results: -->
-        <div id="results" class="ps-5">
-            <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
-            <div v-if="!store.searchSeries && !store.searchMovies">
-                <p>Oops! Non abbiamo trovato quello che stavi cercando.</p>
-                <p>Prova ad effettuare una nuova ricerca.</p>
+        <div v-if="store.showResults">
+            <!-- results: -->
+            <div id="results" class="ps-5">
+                <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
+                <div v-if="!store.searchSeries && !store.searchMovies">
+                    <p>Oops! Non abbiamo trovato quello che stavi cercando.</p>
+                    <p>Prova ad effettuare una nuova ricerca.</p>
+                </div>
             </div>
+            <!-- movies  -->
+            <div v-if="store.searchMovies || store.searchSeries" class="ps-5">
+                <section id="movies" class="my-5">
+                    <div class="d-flex column-gap-2">
+                        <h2>Film</h2>
+                        <button class="prev btn" @click="scrollBw('moviesList')">&#10094;</button>
+                        <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
+                    </div>
+                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
+                        <cardBox v-for="(el,index) in store.moviesList" :key="index"
+                        :title="el.title"
+                        :imgSource=" el.backdrop_path"
+                        @click="getInfo(el.id, 'moviesList')"/>
+            
+                    </div>
+                </section>
+                <!-- series  -->
+                <section id="series" class="my-5">
+                    <div class="d-flex column-gap-2">
+                        <h2>Serie TV</h2>
+                        <button class="prev btn"  @click="scrollBw('seriesList')">&#10094;</button>
+                        <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
+                    </div>
+                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
+                        <cardBox v-for="el in store.seriesList"
+                        :title="el.name"
+                        :imgSource=" el.backdrop_path"
+                        @click="getInfo(el.id, 'seriesList')"/>
+                    </div>
+            
+                </section>
         </div>
-
-
-        <!-- movies  -->
-        <div v-if="store.searchMovies || store.searchSeries" class="ps-5">
-            <section id="movies" class="my-5">
-                <div class="d-flex column-gap-2">
-                    <h2>Film</h2>
-                    <button class="prev btn" @click="scrollBw('moviesList')">&#10094;</button>
-                    <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
-                </div>
-                <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
-                    <cardBox v-for="(el,index) in store.moviesList" :key="index"
-                    :title="el.title"
-                    :imgSource=" el.backdrop_path"
-                    @click="getInfo(el.id, 'moviesList')"/>
-            
-                </div>
-            </section>
-            <!-- series  -->
-            <section id="series" class="my-5">
-                <div class="d-flex column-gap-2">
-                    <h2>Serie TV</h2>
-                    <button class="prev btn"  @click="scrollBw('seriesList')">&#10094;</button>
-                    <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
-                </div>
-                <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
-                    <cardBox v-for="el in store.seriesList"
-                    :title="el.name"
-                    :imgSource=" el.backdrop_path"
-                    @click="getInfo(el.id, 'seriesList')"/>
-                </div>
-            
-            </section>
         </div>
     </main>
 </template>

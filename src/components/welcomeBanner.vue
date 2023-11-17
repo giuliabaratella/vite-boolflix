@@ -24,6 +24,8 @@
     height: 100%;
     position: relative;
     background-image: url(../assets/images/welcome.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     .welcome-msg {
         position: absolute;
         top: 0;
