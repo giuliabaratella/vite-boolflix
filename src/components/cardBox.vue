@@ -33,7 +33,7 @@ import { store } from '../assets/data/store';
         computed:{
 
             getImg(){
-                return this.imgSource ? (store.urlImg + store.imgSize.backdrop + this.imgSource) : 'img/404-not-found.jpg'
+                return this.imgSource ? (store.urlImg + store.imgSize.backdrop + this.imgSource) : 'img/404-not-found-backdrop.jpg'
             },
         }
     }
