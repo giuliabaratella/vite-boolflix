@@ -25,7 +25,7 @@
         </div>
 
         <!-- hero  -->
-        <div id="main-hero">
+        <div id="main-hero" v-if="!store.showResults">
             <div class="hero-text ps-5">
                 <img src="../assets/images/bridgerton-logo.png" alt="Bridgerton">
                 <h3>#1 in Serie Tv Oggi</h3>
@@ -46,6 +46,21 @@
             </video>
         </div>
 
+        <section id="popular" class="my-5 ps-5" v-if="!store.showResults">
+            <div class="d-flex column-gap-2">
+                        <h2>Più popolari</h2>
+                        <button class="prev btn" @click="scrollBw('popularList')">&#10094;</button>
+                        <button class="next btn" @click="scrollFw('popularList')">&#10095;</button>
+                    </div>
+                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="popularList">
+                        <cardPoster v-for="(el,index) in store.popularList" :key="index"
+                        :title="el.title"
+                        :imgSource=" el.poster_path"
+                        @click="getInfo(el.id, 'popularList')"/>
+            
+                    </div>
+        </section>
+
         <div v-if="store.showResults">
             <!-- results: -->
             <div id="results" class="ps-5">
@@ -64,7 +79,7 @@
                         <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
                     </div>
                     <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
-                        <cardBox v-for="(el,index) in store.moviesList" :key="index"
+                        <cardBackdrop v-for="(el,index) in store.moviesList" :key="index"
                         :title="el.title"
                         :imgSource=" el.backdrop_path"
                         @click="getInfo(el.id, 'moviesList')"/>
@@ -79,7 +94,7 @@
                         <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
                     </div>
                     <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
-                        <cardBox v-for="el in store.seriesList"
+                        <cardBackdrop v-for="el in store.seriesList"
                         :title="el.name"
                         :imgSource=" el.backdrop_path"
                         @click="getInfo(el.id, 'seriesList')"/>
@@ -92,13 +107,17 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { store } from '../assets/data/store';
 import welcomeBanner from './welcomeBanner.vue';
-import cardBox from './cardBox.vue';
+import cardBackdrop from './cardBackdrop.vue';
+import cardPoster from './cardPoster.vue';
+
     export default {
         name:'MainComponent',
         components:{
-            cardBox,
+            cardBackdrop,
+            cardPoster,
             welcomeBanner,
         },
         data(){
@@ -151,6 +170,15 @@ import cardBox from './cardBox.vue';
                     behavior: "smooth",
                 });
             },
+            getPopular(){
+                store.popularList=[];
+                const popularUrl = this.store.urlApi + this.store.endpoint.popular;
+                axios.get(popularUrl, {params: this.store.params}).then((resp)=>{
+                    this.store.popularList = resp.data.results;
+                    console.log(this.store.popularList)
+                })
+                
+            }
          },
         computed:{
             voteStars(){
@@ -165,6 +193,9 @@ import cardBox from './cardBox.vue';
                 }
                 return languageSource;
             },
+        },
+        created(){
+            this.getPopular();
         }
     }
 </script>

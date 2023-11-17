@@ -41,6 +41,7 @@ import welcomeBanner from './components/welcomeBanner.vue';
         Promise.all([this.getMovies(), this.getSeries()]).then((resp)=> {
           this.store.moviesList = resp[0].data.results;
           this.store.seriesList = resp[1].data.results;
+          console.log(resp[1].data.results)
 
           if (store.moviesList.length < 1){
             this.store.searchMovies = false;

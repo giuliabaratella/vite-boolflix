@@ -5,14 +5,6 @@
             <div class="img-logo">B</div>
             <img :src="getImg" :alt="title">
         </div>
-        <!-- <div class="card-text p-2">
-            <h5 class="text-uppercase mb-3">{{title}}</h5>
-            <div class="original-title mb-3">{{originalTitle}}</div>
-            <div class="d-flex justify-content-evenly">
-                <img :src="getFlag" :alt="language" class="lang-img">
-                <div><i v-for="n in 5" :key="n" class="fa-star" :class="(n <= voteStars) ? 'fa-solid' : 'fa-regular'"></i></div>
-            </div>
-        </div> -->
     </div>
 </template>
 
@@ -20,7 +12,7 @@
 import { store } from '../assets/data/store';
 
     export default {
-        name:'cardBox',
+        name:'cardBackdrop',
         data(){
             return{
                 store,

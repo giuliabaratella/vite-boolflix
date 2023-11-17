@@ -2,6 +2,7 @@ import {reactive} from 'vue';
 export const store= reactive ({
     urlApi: 'https://api.themoviedb.org/3',
     urlImg: 'https://image.tmdb.org/t/p/',
+    
     imgSize:{
         poster: 'w342',
         backdrop: 'w780',
@@ -9,6 +10,7 @@ export const store= reactive ({
     endpoint: {
         movie: '/search/movie',
         series: '/search/tv',
+        popular: '/movie/popular',
     },
     params:{
     api_key: 'bd3bc1f46c81d86cf1ba39c68386e73e',
@@ -24,4 +26,5 @@ export const store= reactive ({
     error:'',
     loading: true,
     welcome: true,
+    popularList:[],
 })
