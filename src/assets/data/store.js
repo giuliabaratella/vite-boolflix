@@ -23,4 +23,5 @@ export const store= reactive ({
     searchMovies: true,
     error:'',
     loading: true,
+    welcome: true,
 })

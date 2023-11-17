@@ -1,6 +1,9 @@
 <template>
-<HeaderComponent @search="searchMovies"/>
-<MainComponent/>
+  <welcomeBanner v-if="store.welcome"/>
+  <div v-if="!store.welcome">
+    <HeaderComponent @search="searchMovies"/>
+    <MainComponent/>
+  </div>
 </template>
 
 <script>
@@ -8,11 +11,14 @@ import axios from 'axios';
 import {store} from './assets/data/store';
 import HeaderComponent from './components/HeaderComponent.vue';
 import MainComponent from './components/MainComponent.vue';
+import welcomeBanner from './components/welcomeBanner.vue';
+
 
   export default {
     components:{
       HeaderComponent,
       MainComponent,
+      welcomeBanner,
     },
     data(){
       return{

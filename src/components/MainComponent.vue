@@ -25,7 +25,6 @@
         </div>
 
         <!-- welcome  -->
-        <welcomeBanner v-if="!store.showResults"/>
 
         <div v-if="store.showResults">
             <!-- results: -->
