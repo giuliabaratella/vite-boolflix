@@ -20,26 +20,32 @@ import MainComponent from './components/MainComponent.vue';
       }
     },
     methods:{
+      getMovies(){
+        const movieUrl = this.store.urlApi + this.store.endpoint.movie;
+        axios.get(movieUrl, {params: this.store.params})
+      },
+      getSeries(){
+        const seriesUrl = this.store.urlApi + this.store.endpoint.series;
+        axios.get(seriesUrl, {params: this.store.params})
+      },
       getMoviesandSeries(){
         store.showResults = true;
         store.seriesList=[];
         store.moviesList=[];
-        const movieUrl = this.store.urlApi + this.store.endpoint.movie;
-        axios.get(movieUrl, {params: this.store.params}).then ((resp)=> {
-          console.log(resp.data.results);
-          this.store.moviesList = resp.data.results;
+        Promise.all([this.getMovies(), this.getSeries()]).then((resp)=> {
+          console.log(resp[0].data.results);
+
+          this.store.moviesList = resp[0].data.results;
+          this.store.seriesList = resp[1].data.results;
+
           if (store.moviesList.length < 1){
             this.store.searchMovies = false;
-          }
-        })
-        const seriesUrl = this.store.urlApi + this.store.endpoint.series;
-        axios.get(seriesUrl, {params: this.store.params}).then ((resp)=> {
-          console.log(resp.data.results);
-          this.store.seriesList = resp.data.results;
-          if (store.seriesList.length < 1){
+          }else if (store.seriesList.length < 1){
             this.store.searchSeries = false;
-          }
+          };
         })
+
+       
       },
       searchMovies(val){
         console.log(val);
