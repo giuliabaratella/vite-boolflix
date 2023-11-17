@@ -42,8 +42,8 @@
             <section id="movies" class="my-5">
                 <div class="d-flex column-gap-2">
                     <h2>Film</h2>
-                    <btn class="prev btn" @click="scrollBw('moviesList')">&#10094;</btn>
-                    <btn class="next btn" @click="scrollFw('moviesList')">&#10095;</btn>
+                    <button class="prev btn" @click="scrollBw('moviesList')">&#10094;</button>
+                    <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
                 </div>
                 <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
                     <cardBox v-for="(el,index) in store.moviesList" :key="index"
@@ -57,8 +57,8 @@
             <section id="series" class="my-5">
                 <div class="d-flex column-gap-2">
                     <h2>Serie TV</h2>
-                    <btn class="prev btn"  @click="scrollBw('seriesList')">&#10094;</btn>
-                    <btn class="next btn" @click="scrollFw('seriesList')">&#10095;</btn>
+                    <button class="prev btn"  @click="scrollBw('seriesList')">&#10094;</button>
+                    <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
                 </div>
                 <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
                     <cardBox v-for="el in store.seriesList"

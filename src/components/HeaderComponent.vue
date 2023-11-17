@@ -1,5 +1,5 @@
 <template>
-    <Header class="py-3 px-5">
+    <header class="py-3 px-5">
         <div class="row align-items-center justify-content-between ">
             <h1 class="text-uppercase m-0 d-none d-sm-block col-sm-2">
                 Boolflix
