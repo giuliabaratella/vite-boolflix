@@ -24,7 +24,27 @@
             </div>
         </div>
 
-        <!-- welcome  -->
+        <!-- hero  -->
+        <div id="main-hero">
+            <div class="hero-text ps-5">
+                <img src="../assets/images/bridgerton-logo.png" alt="Bridgerton">
+                <h3>#1 in Serie Tv Oggi</h3>
+                <button class="btn me-3 px-3 fw-bold btn-play">
+                    <i class="fa-solid fa-play pe-2"></i>
+                    Play
+                </button>
+                <button class="btn px-3 fw-bold btn-add">
+                    <i class="fa-solid fa-plus"></i>
+                    Aggiungi alla Mia Lista
+                </button>
+                <p>Ispirata dall'omonima serie di romanzi della scrittrice Julia Quinn, il drama racconta la storia di Daphne (Phoebe Dynevor, Younger), la figlia maggiore della potente famiglia Bridgerton, e del suo debutto nel competitivo mercato matrimoniale londinese nell'età della Reggenza. </p>
+                
+            </div>
+            <video autoplay muted>
+                <source src="../assets/images/Bridgerton-trailer.mp4">
+                Il tuo browser non supporta questo video
+            </video>
+        </div>
 
         <div v-if="store.showResults">
             <!-- results: -->
@@ -66,7 +86,7 @@
                     </div>
             
                 </section>
-        </div>
+            </div>
         </div>
     </main>
 </template>
@@ -208,7 +228,43 @@ main {
             font-size: 1.5em;
         }
     }
-
+    #main-hero {
+        position: relative;
+        width: 100%;
+        height: 800px;
+        
+        video {
+            z-index: 500;
+            // position: absolute;
+            // left: 0;
+            // top: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+        }
+        .hero-text {
+            z-index: 1000;
+            position: absolute;
+            left: 0;
+            top: 20%;
+            max-width: 600px;
+            text-shadow: 0 0 3px black;
+                .btn-play{
+                    background-color: $colorLight;
+                    border-radius: 3px;
+                }
+                .btn-add{
+                    border-radius: 3px;
+                    color: $colorLight;
+                    background-color: rgba($color: #5f5c5c, $alpha: 0.6);
+                }
+                img{
+                    width: 70%;
+                }
+        }
+    }
 }
     
 </style>
