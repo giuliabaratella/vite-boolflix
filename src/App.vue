@@ -50,6 +50,8 @@ import ErrorBanner from './components/ErrorBanner.vue';
         Promise.all([this.getMovies(), this.getSeries()]).then((resp)=> {
           this.store.moviesList = resp[0].data.results;
           this.store.seriesList = resp[1].data.results;
+          console.log(store.moviesList);
+          console.log(store.seriesList);
         }).catch((error)=>{
           console.log(error.response)
         this.store.error= error.message
@@ -84,7 +86,7 @@ import ErrorBanner from './components/ErrorBanner.vue';
       getPopularandRated(){
         this.store.welcome= false;
         this.store.loading= true;
-        console.log(store.loading);
+        // console.log(store.loading);
         Promise.all([this.getPopular(), this.getRated()]).then((resp)=> {
           this.store.popularList = resp[0].data.results;
           this.store.topRatedList = resp[1].data.results;
@@ -94,8 +96,25 @@ import ErrorBanner from './components/ErrorBanner.vue';
         store.loading = false;
         });
       },
+      getMoviesGenres(){
+        const moviesGenresUrl = this.store.urlApi + this.store.endpoint.moviesGenres;
+        return axios.get(moviesGenresUrl, {params: this.store.params})
+      },
+      getSeriesGenres(){
+        const seriesGenresUrl = this.store.urlApi + this.store.endpoint.seriesGenres;
+        return axios.get(seriesGenresUrl, {params: this.store.params})
+      },
+      getGenres(){
+        Promise.all([this.getMoviesGenres(), this.getSeriesGenres()]).then((resp)=> {
+          this.store.moviesGenresList = resp[0].data.genres;
+          this.store.seriesGenresList = resp[1].data.genres;
+        }).catch((error)=>{
+          this.store.error= error;
+        })
+      }
     },
     created(){
+      this.getGenres();
     },
   }
 </script>

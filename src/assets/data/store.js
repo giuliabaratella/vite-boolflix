@@ -12,6 +12,8 @@ export const store= reactive ({
         series: '/search/tv',
         popular: '/movie/popular',
         topRated: '/movie/top_rated',
+        moviesGenres:'/genre/movie/list',
+        seriesGenres:'/genre/tv/list'
     },
     params:{
     api_key: 'bd3bc1f46c81d86cf1ba39c68386e73e',
@@ -29,4 +31,6 @@ export const store= reactive ({
     welcome: true,
     popularList:[],
     topRatedList:[],
+    moviesGenresList:[],
+    seriesGenresList:[],
 })

@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <!-- results: -->
+        <!--no results: -->
         <div v-if="store.searchWarning && !store.loading" class="ps-5 mt-5" id="search-warning">
             <h3>Oops!</h3>
             <p>
@@ -105,10 +105,18 @@
                 <a href="#" @click.prevent="homepage">Home</a>.
             </p>
         </div>
-        
+
+        <!-- filter genres  -->
         <div id="search-content" v-if="store.showResults && !store.loading" class="ps-5">
-            <div id="results">
-                <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
+            <div class="d-flex justify-content-between pt-5">
+
+                <div id="results">
+                    <p class="">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
+                </div>
+                <select class="form-select me-5" aria-label="Filtro per genere" v-model="selectedGenre" @change="filterGenre">
+                    <option selected value="">Filtra per genere</option>
+                    <option v-for="el in store.moviesGenresList" :value="el.id">{{ el.name }}</option>
+                </select>
             </div>
 
             <!-- movies  -->
@@ -139,6 +147,22 @@
                     :title="el.name"
                     :imgSource=" el.backdrop_path"
                     @click="getInfo(el.id, 'seriesList')"/>
+                </div>
+        
+            </section>
+
+            <!-- recommended  -->
+            <section id="recommended" class="my-5">
+                <div class="d-flex column-gap-2">
+                    <h2>Consigliati per te</h2>
+                    <button class="prev btn"  @click="scrollBw('recommendedList')">&#10094;</button>
+                    <button class="next btn" @click="scrollFw('recommendedList')">&#10095;</button>
+                </div>
+                <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="recommendedList">
+                    <cardBackdrop v-for="el in store.topRatedList"
+                    :title="el.title"
+                    :imgSource=" el.backdrop_path"
+                    @click="getInfo(el.id, 'topRatedList')"/>
                 </div>
         
             </section>
@@ -181,6 +205,7 @@ import LoadingComponent from './LoadingComponent.vue';
                     'kr',
                     'us',
                 ],
+                selectedGenre:''
             }
         },
         methods:{
@@ -216,6 +241,20 @@ import LoadingComponent from './LoadingComponent.vue';
                 store.showResults= false;
                 store.searchWarning = false;
             },
+            filterGenre(){
+                console.log(this.selectedGenre);
+                console.log(this.store.moviesList);
+                const movieFiltered = this.store.moviesList.filter((el)=>{
+                   return el.genre_ids.includes(this.selectedGenre);
+                });
+                const seriesFiltered = this.store.seriesList.filter((el)=>{
+                   return el.genre_ids.includes(this.selectedGenre);
+                });
+                console.log(movieFiltered);
+                console.log(seriesFiltered);
+                this.store.moviesList = movieFiltered;
+                this.store.seriesList = seriesFiltered;
+            }
             
          },
         computed:{
@@ -319,6 +358,13 @@ main {
         h3{
             font-size: 4em;
             margin-bottom: 30px;
+        }
+    }
+    #search-content {
+        .form-select{
+            background-color: $colorDark;
+            color: $colorLight;
+            width: 300px;
         }
     }
     #homepage {
