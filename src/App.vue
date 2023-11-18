@@ -1,5 +1,5 @@
 <template>
-  <welcomeBanner v-if="store.welcome"/>
+  <welcomeBanner v-if="store.welcome" @enterBoolflix="getPopularandRated"/>
   <div v-if="!store.welcome">
     <HeaderComponent @search="searchMovies"/>
     <MainComponent/>
@@ -35,6 +35,7 @@ import welcomeBanner from './components/welcomeBanner.vue';
         return axios.get(seriesUrl, {params: this.store.params})
       },
       getMoviesandSeries(){
+        this.store.startSearch = false;
         this.store.showResults = false;
         this.store.loading = true;
         this.store.searchWarning = false;
@@ -63,7 +64,27 @@ import welcomeBanner from './components/welcomeBanner.vue';
           this.store.params.query = '';
           this.getMoviesandSeries();
         }
-      }
+      },
+      getPopular(){
+        
+        const popularUrl = this.store.urlApi + this.store.endpoint.popular;
+        axios.get(popularUrl, {params: this.store.params}).then((resp)=>{
+          this.store.popularList = resp.data.results;})
+      },
+      getRated(){
+      const topRatedUrl = this.store.urlApi + this.store.endpoint.topRated;
+      axios.get(topRatedUrl, {params: this.store.params}).then((resp)=>{
+          this.store.topRatedList = resp.data.results;})
+      },
+      getPopularandRated(){
+        this.store.welcome= false;
+        this.store.loading= true;
+        Promise.all([this.getPopular(), this.getRated()]).catch((error)=>{
+        this.store.error= error.message;
+        }).finally(()=>{
+        store.loading = false;
+        });
+      },
     },
     created(){
     },

@@ -26,10 +26,12 @@
             </div>
         </div>
 
-        <div id="homepage"  v-if="!store.showResults && !store.searchWarning">
+
+        <!-- Homepage  -->
+        <div id="homepage" v-if="!store.showResults && !store.searchWarning && !store.startSearch  && !store.loading">
             <!-- hero  -->
             <div id="main-hero">
-                <div class="hero-text ps-5 mb-0">
+                <div class="hero-text px-5 mb-0">
                     <img src="../assets/images/bridgerton-logo.png" alt="Bridgerton">
                     <h3>#1 in Serie Tv Oggi</h3>
                     <button class="btn me-3 px-3 fw-bold btn-play">
@@ -50,8 +52,8 @@
                 </video>
             </div>
 
-
-            <section id="popular" class="mb-5 ps-5">
+            <!-- popular -->
+            <section id="popular" class="pb-5 ps-5">
                 <div class="d-flex column-gap-2">
                             <h2>Film più popolari</h2>
                             <button class="prev btn" @click="scrollBw('popularList')">&#10094;</button>
@@ -66,7 +68,8 @@
                         </div>
             </section>
 
-            <section id="top-rated" class="mb-5 ps-5">
+            <!-- top rated  -->
+            <section id="top-rated" class="pb-5 ps-5 ">
                 <div class="d-flex column-gap-2">
                             <h2>Film più votati</h2>
                             <button class="prev btn" @click="scrollBw('topRatedList')">&#10094;</button>
@@ -83,14 +86,27 @@
             
         </div>
 
+        <!-- search  -->
+        <div v-if="store.startSearch && !store.loading" id="search-msg" class="d-flex align-items-center ps-5">
+            <div>
+                <p class="mb-5">
+                    <span class="text-uppercase">Boolflix</span> ti permette di scegliere tra centinaia di Film e Serie Tv. <br> Ce n'è per tutti i gusti!
+                </p>
+                <p>Prova a cercare qualcosa nella barra di ricerca in alto.</p>
+            </div>
+        </div>
+
         <!-- results: -->
-        <div v-if="store.searchWarning" class="ps-5 mt-5" id="search-warning">
+        <div v-if="store.searchWarning && !store.loading" class="ps-5 mt-5" id="search-warning">
             <h3>Oops!</h3>
-            <p>Non abbiamo trovato quello che stavi cercando.</p>
-            <p>Prova ad effettuare una nuova ricerca.</p>
+            <p>
+                Non abbiamo trovato quello che stavi cercando. <br>
+                Prova ad effettuare una nuova ricerca, oppure ritorna alla 
+                <a href="#" @click.prevent="homepage">Home</a>.
+            </p>
         </div>
         
-        <div id="search-content" v-if="store.showResults" class="ps-5">
+        <div id="search-content" v-if="store.showResults && !store.loading" class="ps-5">
             <div id="results">
                 <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
             </div>
@@ -132,9 +148,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 import { store } from '../assets/data/store';
-import welcomeBanner from './welcomeBanner.vue';
 import cardBackdrop from './cardBackdrop.vue';
 import cardPoster from './cardPoster.vue';
 import LoadingComponent from './LoadingComponent.vue';
@@ -145,7 +160,6 @@ import LoadingComponent from './LoadingComponent.vue';
         components:{
             cardBackdrop,
             cardPoster,
-            welcomeBanner,
             LoadingComponent,
         },
         data(){
@@ -198,24 +212,11 @@ import LoadingComponent from './LoadingComponent.vue';
                     behavior: "smooth",
                 });
             },
-            getPopular(){
-                store.popularList=[];
-                const popularUrl = this.store.urlApi + this.store.endpoint.popular;
-                axios.get(popularUrl, {params: this.store.params}).then((resp)=>{
-                    this.store.popularList = resp.data.results;
-                    console.log(this.store.popularList)
-                })
-                
+            homepage(){
+                store.showResults= false;
+                store.searchWarning = false;
             },
-            getRated(){
-                store.topRatedList=[];
-                const topRatedUrl = this.store.urlApi + this.store.endpoint.topRated;
-                axios.get(topRatedUrl, {params: this.store.params}).then((resp)=>{
-                    this.store.topRatedList = resp.data.results;
-                    console.log(this.store.topRatedList)
-                })
-                
-            }
+            
          },
         computed:{
             voteStars(){
@@ -232,8 +233,7 @@ import LoadingComponent from './LoadingComponent.vue';
             },
         },
         created(){
-            this.getPopular();
-            this.getRated();
+            
         }
     }
 </script>
@@ -241,7 +241,8 @@ import LoadingComponent from './LoadingComponent.vue';
 <style lang="scss" scoped>
 @use '../assets/styles/partials/variables' as *;
 main {
-    background-color: $colorDark;
+    background: linear-gradient(180deg, #000 59.87%, rgb(94, 30, 30) 100%);
+
     color: $colorLight;
     height: calc(100vh - 80px);
     width: 100%;
@@ -292,16 +293,37 @@ main {
         }
         
     }
+    #search-msg {
+        height: calc(100vh - 80px);
+         p {
+            font-size: 2em;
+            span {
+                color: $colorPrimary;
+                font-weight: medium;
+                font-size: 1.1em;
+            }
+         }
+    }
     #results, #search-warning {
         p {
             font-size: 1.5em;
+            a{
+                text-decoration: none;
+                color: $colorPrimary;
+                font-size: 1.2em;
+                &:hover{
+                    color:$colorLight
+                }
+            }
         }
         h3{
             font-size: 4em;
             margin-bottom: 30px;
         }
     }
-    #main-hero {
+    #homepage {
+        background-color: $colorDark;
+        #main-hero {
         position: relative;
         width: 100%;
         height: 700px;
@@ -346,6 +368,9 @@ main {
                 }
         }
     }
+        
+    }
+    
 
 }
     

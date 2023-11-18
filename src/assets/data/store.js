@@ -22,6 +22,7 @@ export const store= reactive ({
     moviesList:[],
     seriesList:[],
     showResults: false,
+    startSearch: false,
     searchWarning:false,
     error:'',
     loading: false,

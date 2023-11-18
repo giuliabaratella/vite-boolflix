@@ -17,7 +17,6 @@ export default {
 <style lang="scss" scoped>
 @use '../assets/styles/partials/_variables.scss' as *;
 #loading{
-    // background-color: $colorDark;
     height: calc(100vh - 80px);
     .spinner {
         width: 150px;
@@ -28,7 +27,6 @@ export default {
         display: inline-block;
         box-sizing: border-box;
         animation: rotation 1s linear infinite;
-        // background-color: $colorDark;
     }
 
     @keyframes rotation {

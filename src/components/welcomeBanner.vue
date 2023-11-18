@@ -3,7 +3,7 @@
         <div class="welcome-msg d-flex flex-column justify-content-center ">
             <h2>Benvenut* su Boolflix!</h2>
             <h4 class="text-uppercase mb-5">Guarda film e serie tv ovunque tu voglia.</h4>
-            <button class="btn text-uppercase" @click="store.welcome=false">Entra nel sito</button>
+            <button class="btn text-uppercase" @click="$emit('enterBoolflix')">Entra nel sito</button>
         </div>
     </div>
 </template>
