@@ -11,6 +11,7 @@ export const store= reactive ({
         movie: '/search/movie',
         series: '/search/tv',
         popular: '/movie/popular',
+        topRated: '/movie/top_rated',
     },
     params:{
     api_key: 'bd3bc1f46c81d86cf1ba39c68386e73e',
@@ -21,10 +22,12 @@ export const store= reactive ({
     moviesList:[],
     seriesList:[],
     showResults: false,
-    searchSeries: true,
-    searchMovies: true,
+    searchSeries: false,
+    searchMovies: false,
+    searchWarning:false,
     error:'',
     loading: true,
     welcome: true,
     popularList:[],
+    topRatedList:[],
 })

@@ -24,85 +24,107 @@
             </div>
         </div>
 
-        <!-- hero  -->
-        <div id="main-hero" v-if="!store.showResults">
-            <div class="hero-text ps-5">
-                <img src="../assets/images/bridgerton-logo.png" alt="Bridgerton">
-                <h3>#1 in Serie Tv Oggi</h3>
-                <button class="btn me-3 px-3 fw-bold btn-play">
-                    <i class="fa-solid fa-play pe-2"></i>
-                    Play
-                </button>
-                <button class="btn px-3 fw-bold btn-add">
-                    <i class="fa-solid fa-plus"></i>
-                    Aggiungi alla Mia Lista
-                </button>
-                <p>Ispirata dall'omonima serie di romanzi della scrittrice Julia Quinn, il drama racconta la storia di Daphne (Phoebe Dynevor, Younger), la figlia maggiore della potente famiglia Bridgerton, e del suo debutto nel competitivo mercato matrimoniale londinese nell'età della Reggenza. </p>
-                
-            </div>
-            <video autoplay muted>
-                <source src="../assets/images/Bridgerton-trailer.mp4">
-                Il tuo browser non supporta questo video
-            </video>
-        </div>
-
-        <section id="popular" class="my-5 ps-5" v-if="!store.showResults">
-            <div class="d-flex column-gap-2">
-                        <h2>Più popolari</h2>
-                        <button class="prev btn" @click="scrollBw('popularList')">&#10094;</button>
-                        <button class="next btn" @click="scrollFw('popularList')">&#10095;</button>
-                    </div>
-                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="popularList">
-                        <cardPoster v-for="(el,index) in store.popularList" :key="index"
-                        :title="el.title"
-                        :imgSource=" el.poster_path"
-                        @click="getInfo(el.id, 'popularList')"/>
+        <div id="homepage"  v-if="!store.showResults">
+            <!-- hero  -->
+            <div id="main-hero">
+                <div class="hero-text ps-5 mb-0">
+                    <img src="../assets/images/bridgerton-logo.png" alt="Bridgerton">
+                    <h3>#1 in Serie Tv Oggi</h3>
+                    <button class="btn me-3 px-3 fw-bold btn-play">
+                        <i class="fa-solid fa-play pe-2"></i>
+                        Play
+                    </button>
+                    <button class="btn px-3 fw-bold btn-add">
+                        <i class="fa-solid fa-plus"></i>
+                        Aggiungi alla Mia Lista
+                    </button>
+                    <p>Ispirata dall'omonima serie di romanzi della scrittrice Julia Quinn, il drama racconta la storia di Daphne (Phoebe Dynevor, Younger), la figlia maggiore della potente famiglia Bridgerton, e del suo debutto nel competitivo mercato matrimoniale londinese nell'età della Reggenza. </p>
             
-                    </div>
-        </section>
-
-        <div v-if="store.showResults">
-            <!-- results: -->
-            <div id="results" class="ps-5">
-                <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
-                <div v-if="!store.searchSeries && !store.searchMovies">
-                    <p>Oops! Non abbiamo trovato quello che stavi cercando.</p>
-                    <p>Prova ad effettuare una nuova ricerca.</p>
                 </div>
+                <video autoplay muted>
+                    <source src="../assets/images/Bridgerton-trailer.mp4">
+                    Il tuo browser non supporta questo video
+                </video>
             </div>
-            <!-- movies  -->
-            <div v-if="store.searchMovies || store.searchSeries" class="ps-5">
-                <section id="movies" class="my-5">
-                    <div class="d-flex column-gap-2">
-                        <h2>Film</h2>
-                        <button class="prev btn" @click="scrollBw('moviesList')">&#10094;</button>
-                        <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
-                    </div>
-                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
-                        <cardBackdrop v-for="(el,index) in store.moviesList" :key="index"
-                        :title="el.title"
-                        :imgSource=" el.backdrop_path"
-                        @click="getInfo(el.id, 'moviesList')"/>
+
+
+            <section id="popular" class="mb-5 ps-5">
+                <div class="d-flex column-gap-2">
+                            <h2>Film più popolari</h2>
+                            <button class="prev btn" @click="scrollBw('popularList')">&#10094;</button>
+                            <button class="next btn" @click="scrollFw('popularList')">&#10095;</button>
+                        </div>
+                        <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="popularList">
+                            <cardPoster v-for="(el,index) in store.popularList" :key="index"
+                            :title="el.title"
+                            :imgSource=" el.poster_path"
+                            @click="getInfo(el.id, 'popularList')"/>
             
-                    </div>
-                </section>
-                <!-- series  -->
-                <section id="series" class="my-5">
-                    <div class="d-flex column-gap-2">
-                        <h2>Serie TV</h2>
-                        <button class="prev btn"  @click="scrollBw('seriesList')">&#10094;</button>
-                        <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
-                    </div>
-                    <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
-                        <cardBackdrop v-for="el in store.seriesList"
-                        :title="el.name"
-                        :imgSource=" el.backdrop_path"
-                        @click="getInfo(el.id, 'seriesList')"/>
-                    </div>
+                        </div>
+            </section>
+
+            <section id="top-rated" class="mb-5 ps-5">
+                <div class="d-flex column-gap-2">
+                            <h2>Film più votati</h2>
+                            <button class="prev btn" @click="scrollBw('topRatedList')">&#10094;</button>
+                            <button class="next btn" @click="scrollFw('topRatedList')">&#10095;</button>
+                        </div>
+                        <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="topRatedList">
+                            <cardPoster v-for="(el,index) in store.topRatedList" :key="index"
+                            :title="el.title"
+                            :imgSource=" el.poster_path"
+                            @click="getInfo(el.id, 'topRatedList')"/>
             
-                </section>
-            </div>
+                        </div>
+            </section>
+            
         </div>
+
+        <!-- results: -->
+        <div v-if="store.searchWarning" class="ps-5 mt-5" id="search-warning">
+            <h3>Oops!</h3>
+            <p>Non abbiamo trovato quello che stavi cercando.</p>
+            <p>Prova ad effettuare una nuova ricerca.</p>
+        </div>
+        
+        <div id="search-content" v-if="store.searchMovies || store.searchSeries" class="ps-5">
+            <div id="results">
+                <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
+            </div>
+
+            <!-- movies  -->
+            <section id="movies" class="my-5">
+                <div class="d-flex column-gap-2">
+                    <h2>Film</h2>
+                    <button class="prev btn" @click="scrollBw('moviesList')">&#10094;</button>
+                    <button class="next btn" @click="scrollFw('moviesList')">&#10095;</button>
+                </div>
+                <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="moviesList">
+                    <cardBackdrop v-for="(el,index) in store.moviesList" :key="index"
+                    :title="el.title"
+                    :imgSource=" el.backdrop_path"
+                    @click="getInfo(el.id, 'moviesList')"/>
+        
+                </div>
+            </section>
+
+            <!-- series  -->
+            <section id="series" class="my-5">
+                <div class="d-flex column-gap-2">
+                    <h2>Serie TV</h2>
+                    <button class="prev btn"  @click="scrollBw('seriesList')">&#10094;</button>
+                    <button class="next btn" @click="scrollFw('seriesList')">&#10095;</button>
+                </div>
+                <div class="list d-flex align-items-stretch flex-nowrap overflow-x-auto" ref="seriesList">
+                    <cardBackdrop v-for="el in store.seriesList"
+                    :title="el.name"
+                    :imgSource=" el.backdrop_path"
+                    @click="getInfo(el.id, 'seriesList')"/>
+                </div>
+        
+            </section>
+        </div>
+
     </main>
 </template>
 
@@ -178,6 +200,15 @@ import cardPoster from './cardPoster.vue';
                     console.log(this.store.popularList)
                 })
                 
+            },
+            getRated(){
+                store.topRatedList=[];
+                const topRatedUrl = this.store.urlApi + this.store.endpoint.topRated;
+                axios.get(topRatedUrl, {params: this.store.params}).then((resp)=>{
+                    this.store.topRatedList = resp.data.results;
+                    console.log(this.store.topRatedList)
+                })
+                
             }
          },
         computed:{
@@ -196,6 +227,7 @@ import cardPoster from './cardPoster.vue';
         },
         created(){
             this.getPopular();
+            this.getRated();
         }
     }
 </script>
@@ -254,24 +286,29 @@ main {
         }
         
     }
-    #results {
+    #results, #search-warning {
         p {
             font-size: 1.5em;
+        }
+        h3{
+            font-size: 4em;
+            margin-bottom: 30px;
         }
     }
     #main-hero {
         position: relative;
         width: 100%;
-        height: 800px;
+        height: 700px;
         
         video {
             z-index: 500;
-            // position: absolute;
-            // left: 0;
-            // top: 0;
+            position: absolute;
+            left: 0;
+            top: -100px;
             height: 100%;
             width: 100%;
             object-fit: cover;
+            object-position: top;
             -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
             mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
         }
@@ -296,6 +333,7 @@ main {
                 }
         }
     }
+
 }
     
 </style>

@@ -40,6 +40,7 @@ header {
     width: 100%;
     background-color: $colorDark;
     color: $colorLight;
+    z-index: 5000;
     h1{
     color: $colorPrimary;
     }

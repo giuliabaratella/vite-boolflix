@@ -36,7 +36,7 @@ import { store } from '../assets/data/store';
    
 .img-box{
 transition: all 0.1s;
-width: 300px;
+width: 200px;
 height: 100%;
 position: relative;
     .img-logo{
