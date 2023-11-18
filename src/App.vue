@@ -74,22 +74,22 @@ import ErrorBanner from './components/ErrorBanner.vue';
         }
       },
       getPopular(){
-        
         const popularUrl = this.store.urlApi + this.store.endpoint.popular;
-        axios.get(popularUrl, {params: this.store.params}).then((resp)=>{
-          this.store.popularList = resp.data.results;})
+        return axios.get(popularUrl, {params: this.store.params})
       },
       getRated(){
       const topRatedUrl = this.store.urlApi + this.store.endpoint.topRated;
-      axios.get(topRatedUrl, {params: this.store.params}).then((resp)=>{
-          this.store.topRatedList = resp.data.results;})
+      return axios.get(topRatedUrl, {params: this.store.params})
       },
       getPopularandRated(){
         this.store.welcome= false;
         this.store.loading= true;
-        Promise.all([this.getPopular(), this.getRated()]).catch((error)=>{
-          console.log('ciao')
-        this.store.error= error.message;
+        console.log(store.loading);
+        Promise.all([this.getPopular(), this.getRated()]).then((resp)=> {
+          this.store.popularList = resp[0].data.results;
+          this.store.topRatedList = resp[1].data.results;
+        }).catch((error)=>{
+          this.store.error= error;
         }).finally(()=>{
         store.loading = false;
         });
