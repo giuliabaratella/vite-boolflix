@@ -1,8 +1,11 @@
 <template>
-  <welcomeBanner v-if="store.welcome" @enterBoolflix="getPopularandRated"/>
-  <div v-if="!store.welcome">
-    <HeaderComponent @search="searchMovies"/>
-    <MainComponent/>
+  <ErrorBanner v-if="store.error"/>
+  <div v-else>
+    <welcomeBanner v-if="store.welcome" @enterBoolflix="getPopularandRated"/>
+    <div v-if="!store.welcome">
+      <HeaderComponent @search="searchMovies"/>
+      <MainComponent/>
+    </div>
   </div>
 </template>
 
@@ -12,6 +15,8 @@ import {store} from './assets/data/store';
 import HeaderComponent from './components/HeaderComponent.vue';
 import MainComponent from './components/MainComponent.vue';
 import welcomeBanner from './components/welcomeBanner.vue';
+import ErrorBanner from './components/ErrorBanner.vue';
+
 
 
   export default {
@@ -19,6 +24,7 @@ import welcomeBanner from './components/welcomeBanner.vue';
       HeaderComponent,
       MainComponent,
       welcomeBanner,
+      ErrorBanner,
     },
     data(){
       return{
@@ -45,7 +51,9 @@ import welcomeBanner from './components/welcomeBanner.vue';
           this.store.moviesList = resp[0].data.results;
           this.store.seriesList = resp[1].data.results;
         }).catch((error)=>{
+          console.log(error.response)
         this.store.error= error.message
+        console.log(store.error)
       }).finally(()=>{
         store.loading = false;
         if (store.moviesList.length < 1 && store.seriesList.length < 1){
@@ -80,6 +88,7 @@ import welcomeBanner from './components/welcomeBanner.vue';
         this.store.welcome= false;
         this.store.loading= true;
         Promise.all([this.getPopular(), this.getRated()]).catch((error)=>{
+          console.log('ciao')
         this.store.error= error.message;
         }).finally(()=>{
         store.loading = false;
