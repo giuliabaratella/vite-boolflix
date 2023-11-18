@@ -1,6 +1,8 @@
 <template>
     <main>
 
+        <LoadingComponent v-if="this.store.loading"/>
+
         <!-- offcanvas  -->
         <div class="offcanvas offcanvas-start p-3 overflow-y-auto" :class="{show : infoBox}" id="infobox" aria-labelledby="infobox">
             
@@ -24,7 +26,7 @@
             </div>
         </div>
 
-        <div id="homepage"  v-if="!store.showResults">
+        <div id="homepage"  v-if="!store.showResults && !store.searchWarning">
             <!-- hero  -->
             <div id="main-hero">
                 <div class="hero-text ps-5 mb-0">
@@ -41,6 +43,7 @@
                     <p>Ispirata dall'omonima serie di romanzi della scrittrice Julia Quinn, il drama racconta la storia di Daphne (Phoebe Dynevor, Younger), la figlia maggiore della potente famiglia Bridgerton, e del suo debutto nel competitivo mercato matrimoniale londinese nell'età della Reggenza. </p>
             
                 </div>
+                <div class="video-fade"></div>
                 <video autoplay muted>
                     <source src="../assets/images/Bridgerton-trailer.mp4">
                     Il tuo browser non supporta questo video
@@ -87,7 +90,7 @@
             <p>Prova ad effettuare una nuova ricerca.</p>
         </div>
         
-        <div id="search-content" v-if="store.searchMovies || store.searchSeries" class="ps-5">
+        <div id="search-content" v-if="store.showResults" class="ps-5">
             <div id="results">
                 <p class="my-5">Abbiamo trovato {{ store.moviesList.length }} risultati in Film e {{ store.seriesList.length }} risultati in Serie TV per : '{{ store.params.query }}'</p>
             </div>
@@ -134,6 +137,8 @@ import { store } from '../assets/data/store';
 import welcomeBanner from './welcomeBanner.vue';
 import cardBackdrop from './cardBackdrop.vue';
 import cardPoster from './cardPoster.vue';
+import LoadingComponent from './LoadingComponent.vue';
+
 
     export default {
         name:'MainComponent',
@@ -141,6 +146,7 @@ import cardPoster from './cardPoster.vue';
             cardBackdrop,
             cardPoster,
             welcomeBanner,
+            LoadingComponent,
         },
         data(){
             return{
@@ -299,18 +305,25 @@ main {
         position: relative;
         width: 100%;
         height: 700px;
+        .video-fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 600;
+            background: linear-gradient(180deg, rgba(11, 11, 11, 0.00) 60.98%, #000 100%);
+        }
         
         video {
             z-index: 500;
             position: absolute;
             left: 0;
-            top: -100px;
+            top: 0px;
             height: 100%;
             width: 100%;
             object-fit: cover;
-            object-position: top;
-            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-            mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            object-position: center;
         }
         .hero-text {
             z-index: 1000;

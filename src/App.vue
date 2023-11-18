@@ -35,35 +35,33 @@ import welcomeBanner from './components/welcomeBanner.vue';
         return axios.get(seriesUrl, {params: this.store.params})
       },
       getMoviesandSeries(){
-        store.showResults = true;
+        this.store.showResults = false;
+        this.store.loading = true;
+        this.store.searchWarning = false;
         store.seriesList=[];
         store.moviesList=[];
         Promise.all([this.getMovies(), this.getSeries()]).then((resp)=> {
           this.store.moviesList = resp[0].data.results;
           this.store.seriesList = resp[1].data.results;
-          // console.log(resp[1].data.results)
-
-        if (store.moviesList.length < 1 && store.seriesList.length < 1){
-          this.store.searchWarning = true;
-          this.store.searchMovies = false;
-          this.store.searchSeries = false;
-        };
         }).catch((error)=>{
         this.store.error= error.message
-      }).finally(()=>store.loading = false)
+      }).finally(()=>{
+        store.loading = false;
+        if (store.moviesList.length < 1 && store.seriesList.length < 1){
+          this.store.searchWarning = true;
+        }else {
+          this.store.showResults = true;
+        }
+      })
       },
       searchMovies(val){
         console.log(val);
-        store.searchMovies = true;
-        store.searchSeries = true;
-        store.searchWarning = false;
         if(val){
           this.store.params.query = val;
           this.getMoviesandSeries();
         }else{
           this.store.params.query = '';
           this.getMoviesandSeries();
-          // this.store.showResults = false;
         }
       }
     },
